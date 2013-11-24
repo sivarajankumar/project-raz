@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+  <link rel="stylesheet" type="text/css" href="artcss.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js">
+    </script> 
+  </head>
+  <body>
+                           <!--View-->
+    
+    <div class="stage" ng-controller="FController">
+        <input type="button" value="Show the Table" ng-click="myVar='my-class'">
+		<br>
+		Who are you looking for?
+		<br>
+	     Name:<input type="text" ng-model="name"/>
+	     Age:<input type="text" ng-model="age"/>
+	     
+	    <table id='imagetable' border="1">
+	    <th>Name</th>
+        <th>Age</th>
+		 <!--Show and Filter-->
+	    <tbody ng:repeat="a in arraydata|filter:name|filter:age">
+	    <tr>
+        </tr>
+	    <tr><td>{{a.namep}}</td><td>{{a.agep}}</td></tr>
+	    </tbody>
+        </table> 
+   
+	    <br>
+		<!--Adding New Entry-->
+        Enter the new entry: (To see the new added entry in the above table please remove the text under "Who are you looking for?")
+	    <br>
+	    Name:<input type="text" ng-model="newa.name"/>
+	    Age:<input type="text" ng-model="newa.age"/>
+	    <br>
+   	   <button ng-click="addEntry()">Add</button>
+	   
+	   <br>
+	   <br>
+	   <br>
+	   <!--Changing the Entries-->
+        Enter the entry you want to edit:
+	    <br>
+	    Name:<input type="text" ng-model="oldv.name"/>
+	    Age:<input type="text" ng-model="oldv.age"/>
+	    <br>
+		Enter the new value for the entry:
+	    <br>
+	    Name:<input type="text" ng-model="newv.name"/>
+	    Age:<input type="text" ng-model="newv.age"/>
+	    <br>
+   	   <button ng-click="EditEntry()">Edit</button>
+    </div>
+ 
+                      <!--Controller-->
+    <script type="text/javascript" language="javascript">
+    function FController($scope) {
+	    <!--From JSON to Array-->
+		$scope.arraydata=new Array();
+        $(document).ready(function() {
+            $.getJSON('list.json', function(data) {
+	           $.each(data, function(index, value){
+			    $scope.arraydata.push({namep: data[index].name, agep: data[index].age});
+                });
+	        });
+        });
+		<!--Adding New Entry-->
+		$scope.addEntry=function(){
+            $scope.arraydata.push({namep: $scope.newa.name, agep: $scope.newa.age});
+        };
+		<!--Editing Entries-->
+		$scope.EditEntry=function(){
+          for (var i=0;i<$scope.arraydata.length;i++){
+		       if($scope.arraydata[i].namep==$scope.oldv.name && $scope.arraydata[i].agep==$scope.oldv.age){
+                $scope.arraydata[i].namep=$scope.newv.name; $scope.arraydata[i].agep= $scope.newv.age;
+				}
+              
+		  }
+           
+        };
+	}
+	
+	</script>
+     
+	<script src="angular.min.js"></script>
+  </body>
+</html> 
