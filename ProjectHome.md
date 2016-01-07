@@ -1,0 +1,2 @@
+I created a database in mysql and read the records in php and convert it to the JSON file. Then, with angularjs (using Model and Controller) I read the data
+from JSON file and demonstrated it in output. Then, the user will query the data and update the HTML if there are changes.
